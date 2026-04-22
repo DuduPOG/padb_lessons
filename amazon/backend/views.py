@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
-from .models import Cliente, Endereco, Item, FormaPagamento, Vendedor, Pedido
-from .serializers import ClienteSerializer, EnderecoSerializer, ItemSerializer, FormaPagamentoSerializer, VendedorSerializer, PedidoSerializer
+from .models import Cliente, Endereco, Produto, Item, FormaPagamento, Vendedor, Pedido
+from .serializers import ClienteSerializer, ProdutoSerializer, EnderecoSerializer, ItemSerializer, FormaPagamentoSerializer, VendedorSerializer, PedidoSerializer
 
 class ClienteViewSet(viewsets.ModelViewSet):
     """
@@ -55,6 +55,15 @@ class VendedorViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['nome', 'email', 'telefone']
     search_fields = ['nome', 'email']
+    ordering_fields = ['nome']
+    
+class ProdutoViewSet(viewsets.ModelViewSet):
+    queryset = Produto.objects.all()
+    serializer_class = ProdutoSerializer
+    
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['nome', 'descricao', 'preco', 'estoque', 'categoria', 'disponivel', 'criado_em', 'atualizado_em']
+    search_fields = ['nome', 'descricao', 'preco', 'estoque', 'categoria', 'disponivel', 'criado_em', 'atualizado_em']
     ordering_fields = ['nome']
     
 class PedidoViewSet(viewsets.ModelViewSet):

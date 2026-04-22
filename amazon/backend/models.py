@@ -47,10 +47,42 @@ class FormaPagamento(models.Model):
 class Vendedor(models.Model):
     nome = models.CharField(max_length=100, null=False, blank=False)
     email = models.EmailField(unique=True, null=False, blank=False)
+    cpf_cnpj = models.CharField(max_length=18, unique=True, null=False, blank=False)
     telefone = models.CharField(max_length=15, null=False, blank=True)
+    avaliacao = models.DecimalField(max_digits=3, decimal_places=2, default=5.00, null=False, blank=False)
+    ativo = models.BooleanField(default=True, null=False, blank=False)
+    data_cadastro = models.DateTimeField(auto_now_add=True, null=False, blank=False)
+    
+    class Meta:
+        db_table = 'vendedores'
+        ordering = ['nome']
     
     def __str__(self):
-        return f'{self.nome} - {self.email} - {self.telefone}'
+        return f'{self.nome} ({self.cpf_cnpj})'
+    
+class Produto(models.Model):
+    CATEGORIA_CHOICES = [
+        ('eletronicos', 'Eletrônicos'),
+        ('roupas', 'roupas e Acessórios'),
+        ('livros', 'Livros'),
+        ('alimentos', 'Alimentos'),
+        ('outros', 'Outros'), 
+    ]
+    nome = models.CharField(max_length=200, null=False, blank=False)
+    descricao = models.TextField(blank=True)
+    preco = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
+    estoque = models.IntegerField(default=0, null=False, blank=False)
+    categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES, default='outros', null=False, blank=False)
+    disponivel = models.BooleanField(default=True, null=False, blank=False)
+    criado_em = models.DateTimeField(auto_now_add=True, null=False, blank=False)
+    atualizado_em = models.DateTimeField(auto_now=True, null=False, blank=False) # Atualizado a cada save()
+    
+    class Meta:
+        db_table = 'produtos'
+        ordering = ['nome']
+    
+    def __str__(self):
+        return f'[{self.nome} — R$ {self.preco}'
     
 class Pedido(models.Model):
     #cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)

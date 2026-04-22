@@ -24,11 +24,13 @@ from rest_framework.routers import DefaultRouter
 from backend import views
 
 router = DefaultRouter()
+
 router.register(r'clientes', views.ClienteViewSet)
 router.register(r'enderecos', views.EnderecoViewSet)
 router.register(r'formas_pagamento', views.FormaPagamentoViewSet)
 router.register(r'itens', views.ItemViewSet)
 router.register(r'vendedores', views.VendedorViewSet)
+router.register(r'produtos', views.ProdutoViewSet, basename='Produtos')
 router.register(r'pedidos', views.PedidoViewSet)
 
 schema_view = get_schema_view(
