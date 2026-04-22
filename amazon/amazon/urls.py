@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-from rest_framework import permissions, router
+from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -25,6 +25,11 @@ from backend import views
 
 router = DefaultRouter()
 router.register(r'clientes', views.ClienteViewSet)
+router.register(r'enderecos', views.EnderecoViewSet)
+router.register(r'formas_pagamento', views.FormaPagamentoViewSet)
+router.register(r'itens', views.ItemViewSet)
+router.register(r'vendedores', views.VendedorViewSet)
+router.register(r'pedidos', views.PedidoViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(
