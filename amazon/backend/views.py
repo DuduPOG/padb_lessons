@@ -70,8 +70,9 @@ class PedidoViewSet(viewsets.ModelViewSet):
     
     queryset = Pedido.objects.all()
     serializer_class = PedidoSerializer
-    
+    """
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['data_pedido', 'data_entrega']
     search_fields = ['data_pedido', 'data_entrega']
     ordering_fields = ['data_pedido', 'data_entrega']
+    """

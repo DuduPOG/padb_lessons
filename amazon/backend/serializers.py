@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Cliente, Produto, Endereco, Item, FormaPagamento, Vendedor, Pedido
+from .models import Cliente, Produto, Endereco, Item, FormaPagamento, Vendedor, PerfilVendedor, Pedido, ItemPedido
 
 
 class ClienteSerializer(serializers.ModelSerializer):
@@ -35,20 +35,44 @@ class VendedorSerializer(serializers.ModelSerializer):
         model = Vendedor
         fields = '__all__'
         
+"""
+class PerfilVendedorSerializer(serializers.ModelSerializer):
+    vendedor_nome = serializers.CharField(
+                        source='vendedor.nome',
+                        read_only=True
+                    )
+    class Meta:
+        model = PerfilVendedor
+        fields = ['vendedor', 'vendedor_nome', 'razao_social',
+        'inscricao_estadual', 'banco', 'agencia',
+        'conta', 'chave_pix']
+"""
         
 class ProdutoSerializer(serializers.ModelSerializer):
-    categoria_display = serializers.CharField(
-                            source='get_categoria_display',
-                            read_only=True
-                        )
+
     class Meta:
         model = Produto
-        fields = '__all__' # inclui categoria_display automaticamente
-        extra_fields = ['categoria_display']
+        fields = '__all__'
 
         
 class PedidoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pedido
         fields = '__all__'
- 
+"""
+class ItemPedidoSerializer(serializers.ModelSerializer):
+    produto_nome = serializers.CharField(
+                    source='produto.nome',
+                   read_only=True
+                )
+    subtotal = serializers.SerializerMethodField()
+
+
+    class Meta:
+        model = ItemPedido
+        fields = ['id', 'produto', 'produto_nome',
+        'quantidade', 'preco_unitario', 'subtotal']
+        
+        def get_subtotal(self, obj):
+            return obj.quantidade * obj.preco_unitario
+"""

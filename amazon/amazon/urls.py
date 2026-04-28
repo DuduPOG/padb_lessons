@@ -30,7 +30,7 @@ router.register(r'enderecos', views.EnderecoViewSet)
 router.register(r'formas_pagamento', views.FormaPagamentoViewSet)
 router.register(r'itens', views.ItemViewSet)
 router.register(r'vendedores', views.VendedorViewSet)
-router.register(r'produtos', views.ProdutoViewSet, basename='Produtos')
+router.register(r'produtos', views.ProdutoViewSet)
 router.register(r'pedidos', views.PedidoViewSet)
 
 schema_view = get_schema_view(
