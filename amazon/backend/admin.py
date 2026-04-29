@@ -1,23 +1,11 @@
 from django.contrib import admin
-from .models import Cliente, Endereco, FormaPagamento, Item, Produto, Vendedor, PerfilVendedor, Pedido, ItemPedido
+from .models import Cliente, Item, Produto, Vendedor, PerfilVendedor, Pedido, ItemPedido
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
     list_display = ('nome', 'email', 'telefone', 'data_cadastro')
     search_fields = ('nome', 'email')
     ordering = ('nome',)
-
-@admin.register(Endereco)
-class EnderecoAdmin(admin.ModelAdmin):
-    list_display = ('rua', 'numero', 'bairro', 'cidade', 'estado', 'cep')
-    search_fields = ('rua', 'numero', 'bairro', 'cidade', 'estado', 'cep')
-    ordering = ('cep',)
-    
-@admin.register(FormaPagamento)
-class FormaPagamentoAdmin(admin.ModelAdmin):
-    list_display = ('descricao',)
-    search_fields = ('descricao',)
-    ordering = ('descricao',)
     
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):

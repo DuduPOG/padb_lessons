@@ -25,8 +25,6 @@ from backend import views
 router = DefaultRouter()
 
 router.register(r'clientes', views.ClienteViewSet, basename='cliente')
-router.register(r'enderecos', views.EnderecoViewSet, basename='endereco')
-router.register(r'formas_pagamento', views.FormaPagamentoViewSet, basename='forma-pagamento')
 router.register(r'itens', views.ItemViewSet, basename='item')
 router.register(r'vendedores', views.VendedorViewSet, basename='vendedor')
 router.register(r'perfis-vendedores', views.PerfilVendedorViewSet, basename='perfil-vendedor')

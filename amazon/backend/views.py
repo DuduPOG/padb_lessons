@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
-from .models import Cliente, Endereco, Produto, Item, FormaPagamento, Vendedor, PerfilVendedor, Pedido, ItemPedido
-from .serializers import ClienteSerializer, ProdutoSerializer, EnderecoSerializer, ItemSerializer, FormaPagamentoSerializer, VendedorSerializer, PerfilVendedorSerializer, PedidoSerializer, ItemPedidoSerializer
+from .models import Cliente, Produto, Item, Vendedor, PerfilVendedor, Pedido, ItemPedido
+from .serializers import ClienteSerializer, ProdutoSerializer, ItemSerializer, VendedorSerializer, PerfilVendedorSerializer, PedidoSerializer, ItemPedidoSerializer
 
 class ClienteViewSet(viewsets.ModelViewSet):
     """
@@ -17,26 +17,6 @@ class ClienteViewSet(viewsets.ModelViewSet):
     filterset_fields = ['nome', 'email'] # ?nome=Maria
     search_fields = ['nome', 'email'] # ?search=Maria
     ordering_fields = ['nome', 'data_cadastro'] # ?ordering=-data_cadastro
-    
-class EnderecoViewSet(viewsets.ModelViewSet):
-    
-    queryset = Endereco.objects.all()
-    serializer_class = EnderecoSerializer
-    
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['rua', 'numero', 'bairro', 'cidade', 'estado', 'cep']
-    search_fields = ['rua', 'numero', 'bairro', 'cidade', 'estado', 'cep']
-    ordering_fields = ['cep']
-
-class FormaPagamentoViewSet(viewsets.ModelViewSet):
-    
-    queryset = FormaPagamento.objects.all()
-    serializer_class = FormaPagamentoSerializer
-    
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['descricao']
-    search_fields = ['descricao']
-    ordering_fields = ['descricao']
     
 class ItemViewSet(viewsets.ModelViewSet):        
     queryset = Item.objects.all()
