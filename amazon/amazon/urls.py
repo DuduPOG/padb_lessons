@@ -25,14 +25,14 @@ from backend import views
 router = DefaultRouter()
 
 router.register(r'clientes', views.ClienteViewSet, basename='cliente')
-router.register(r'enderecos', views.EnderecoViewSet, basename='vendedor')
+router.register(r'enderecos', views.EnderecoViewSet, basename='endereco')
 router.register(r'formas_pagamento', views.FormaPagamentoViewSet, basename='forma-pagamento')
 router.register(r'itens', views.ItemViewSet, basename='item')
 router.register(r'vendedores', views.VendedorViewSet, basename='vendedor')
 router.register(r'perfis-vendedores', views.PerfilVendedorViewSet, basename='perfil-vendedor')
 router.register(r'produtos', views.ProdutoViewSet, basename='produto')
 router.register(r'pedidos', views.PedidoViewSet, basename='pedido')
-router.register(r'pedidos', views.ItemPedidoViewSet, basename='item-pedido')
+router.register(r'itens-pedido', views.ItemPedidoViewSet, basename='item-pedido')
 
 schema_view = get_schema_view(
     openapi.Info(
