@@ -18,20 +18,21 @@ from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from backend import views
 
 router = DefaultRouter()
 
-router.register(r'clientes', views.ClienteViewSet)
-router.register(r'enderecos', views.EnderecoViewSet)
-router.register(r'formas_pagamento', views.FormaPagamentoViewSet)
-router.register(r'itens', views.ItemViewSet)
-router.register(r'vendedores', views.VendedorViewSet)
-router.register(r'produtos', views.ProdutoViewSet)
-router.register(r'pedidos', views.PedidoViewSet)
+router.register(r'clientes', views.ClienteViewSet, basename='cliente')
+router.register(r'enderecos', views.EnderecoViewSet, basename='vendedor')
+router.register(r'formas_pagamento', views.FormaPagamentoViewSet, basename='forma-pagamento')
+router.register(r'itens', views.ItemViewSet, basename='item')
+router.register(r'vendedores', views.VendedorViewSet, basename='vendedor')
+router.register(r'perfis-vendedores', views.PerfilVendedorViewSet, basename='perfil-vendedor')
+router.register(r'produtos', views.ProdutoViewSet, basename='produto')
+router.register(r'pedidos', views.PedidoViewSet, basename='pedido')
+router.register(r'pedidos', views.ItemPedidoViewSet, basename='item-pedido')
 
 schema_view = get_schema_view(
     openapi.Info(

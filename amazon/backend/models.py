@@ -116,12 +116,12 @@ class Pedido(models.Model):
 
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, related_name='pedidos')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
+    data_pedido = models.DateTimeField(auto_now_add=True)
+    observacoes = models.TextField(blank=True)
     #vendedor = models.ForeignKey(Vendedor, on_delete=models.CASCADE)
     #endereco_entrega = models.ForeignKey(Endereco, on_delete=models.CASCADE)
     #itens = models.ManyToManyField(Item)
     #forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.CASCADE)
-    data_pedido = models.DateTimeField(auto_now_add=True)
-    observacoes = models.TextField(blank=True)
     #data_entrega = models.DateTimeField()
     
     

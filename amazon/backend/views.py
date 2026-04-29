@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
-from .models import Cliente, Endereco, Produto, Item, FormaPagamento, Vendedor, Pedido
-from .serializers import ClienteSerializer, ProdutoSerializer, EnderecoSerializer, ItemSerializer, FormaPagamentoSerializer, VendedorSerializer, PedidoSerializer
+from .models import Cliente, Endereco, Produto, Item, FormaPagamento, Vendedor, PerfilVendedor, Pedido, ItemPedido
+from .serializers import ClienteSerializer, ProdutoSerializer, EnderecoSerializer, ItemSerializer, FormaPagamentoSerializer, VendedorSerializer, PerfilVendedorSerializer, PedidoSerializer, ItemPedidoSerializer
 
 class ClienteViewSet(viewsets.ModelViewSet):
     """
@@ -57,6 +57,10 @@ class VendedorViewSet(viewsets.ModelViewSet):
     search_fields = ['nome', 'email']
     ordering_fields = ['nome']
     
+class PerfilVendedorViewSet(viewsets.ModelViewSet):
+    queryset = PerfilVendedor.objects.select_related('vendedor').all()
+    serializer_class = PerfilVendedorSerializer
+    
 class ProdutoViewSet(viewsets.ModelViewSet):
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
@@ -67,12 +71,13 @@ class ProdutoViewSet(viewsets.ModelViewSet):
     ordering_fields = ['nome']
     
 class PedidoViewSet(viewsets.ModelViewSet):
-    
-    queryset = Pedido.objects.all()
     serializer_class = PedidoSerializer
-    """
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['data_pedido', 'data_entrega']
-    search_fields = ['data_pedido', 'data_entrega']
-    ordering_fields = ['data_pedido', 'data_entrega']
-    """
+    def get_queryset(self):
+        return (Pedido.objects
+                .select_related('cliente')
+                .prefetch_related('itens__produto')
+                .all())
+        
+class ItemPedidoViewSet(viewsets.ModelViewSet):
+    queryset = ItemPedido.objects.select_related('pedido', 'produto').all()
+    serializer_class = ItemPedidoSerializer
