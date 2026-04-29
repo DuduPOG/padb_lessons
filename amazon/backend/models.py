@@ -47,7 +47,7 @@ class FormaPagamento(models.Model):
 class Vendedor(models.Model):
     nome = models.CharField(max_length=100, null=False, blank=False)
     email = models.EmailField(unique=True, null=False, blank=False)
-    cpf_cnpj = models.CharField(max_length=18, unique=True, null=False, blank=False)
+    cpf_cnpj = models.CharField(max_length=14, unique=True, null=False, blank=False)
     telefone = models.CharField(max_length=15, null=False, blank=True)
     avaliacao = models.DecimalField(max_digits=3, decimal_places=2, default=5.00, null=False, blank=False)
     ativo = models.BooleanField(default=True, null=False, blank=False)
@@ -82,21 +82,17 @@ class PerfilVendedor(models.Model):
         return f'Perfil de {self.vendedor.nome}'
     
 class Produto(models.Model):
-    CATEGORIA_CHOICES = [
-        ('eletronicos', 'Eletrônicos'),
-        ('roupas', 'roupas e Acessórios'),
-        ('livros', 'Livros'),
-        ('alimentos', 'Alimentos'),
-        ('outros', 'Outros'), 
-    ]
+    vendedor = models.ForeignKey(
+        Vendedor,
+        on_delete=models.PROTECT, #nao pode deletar um vendedor que tem produtos
+        related_name='produtos',
+        null=True,
+        blank=True
+    ) 
     nome = models.CharField(max_length=200, null=False, blank=False)
     descricao = models.TextField(blank=True)
     preco = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
-    estoque = models.IntegerField(default=0, null=False, blank=False)
-    categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES, default='outros', null=False, blank=False)
-    disponivel = models.BooleanField(default=True, null=False, blank=False)
-    criado_em = models.DateTimeField(auto_now_add=True, null=False, blank=False)
-    atualizado_em = models.DateTimeField(auto_now=True, null=False, blank=False) # Atualizado a cada save()
+    data_cadastro = models.DateTimeField(auto_now_add=True, null=False, blank=False)
     
     class Meta:
         db_table = 'produtos'
@@ -144,18 +140,14 @@ class ItemPedido(models.Model):
                 related_name='itens_vendidos'
             )
     quantidade = models.PositiveIntegerField(default=1)
-    preco_unitario = models.DecimalField(
-                        max_digits=10,
-                        decimal_places=2,
-                        help_text='Preço congelado no momento da compra'
-                    )
+    preco_unitario = models.DecimalField(max_digits=10, decimal_places=2, help_text='Preço congelado no momento da compra')
     
     class Meta:
         db_table = 'itens_pedido'
         unique_together = ['pedido', 'produto'] # mesmo produto não duplica no pedido
         
     def __str__(self):
-        return f'{self.quantidade}x {self.produto.nome}'
+        return f'{self.quantidade} x {self.produto.nome}'
     
     @property
     def subtotal(self):

@@ -27,9 +27,9 @@ class ItemAdmin(admin.ModelAdmin):
     
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'descricao', 'preco', 'estoque', 'categoria', 'disponivel')
-    search_fields = ('nome', 'descricao', 'preco', 'estoque', 'categoria', 'disponivel')
-    ordering = ('nome',)
+    list_display = ('nome', 'descricao', 'preco', 'data_cadastro')
+    search_fields = ('nome', 'descricao', 'preco', 'data_cadastro')
+    ordering = ('nome', 'preco', 'data_cadastro')
     
 @admin.register(Vendedor)
 class VendedorAdmin(admin.ModelAdmin):
